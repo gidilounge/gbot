@@ -72,7 +72,7 @@ xmpp.on('close', function() {
 
 xmpp.connect({
         jid	: 'gidilounge5@gmail.com',
-        password : '',
+        password : 'Fibonacci1234',
         host : 'talk.google.com',
         port : 5222
 });
