@@ -21,15 +21,15 @@ xmpp.on('chat', function(from, message) {
 
 		}
 
-			console.log(songs);
+			//console.log(songs);
 	 }
 
 		
 
-		if (message.indexOf('!weather') !== -1) {
+		if (message.indexOf('!top10') !== -1) {
 
-			console.log(message.substring(9));
-			xmpp.send(from, message.substring(9));
+			console.log(message.substring(7));
+			xmpp.send(from, message.substring(7));
 
 			//Make API Call
 			request('http://gplayer.herokuapp.com/api/playlist/cloudafrica', function (error, response, body) {
@@ -59,9 +59,9 @@ xmpp.on('error', function(err) {
 });
 
 xmpp.on('subscribe', function(from) {
-if (from === 'a.friend@gmail.com') {
+
     xmpp.acceptSubscription(from);
-    }
+    
 });
 
 xmpp.on('close', function() {
@@ -72,7 +72,7 @@ xmpp.on('close', function() {
 
 xmpp.connect({
         jid	: 'gidilounge5@gmail.com',
-        password : 'Fibonacci1234',
+        password : '',
         host : 'talk.google.com',
         port : 5222
 });
