@@ -1,5 +1,11 @@
 var xmpp = require('simple-xmpp');
 var request = require('request');
+var schedule = require('node-schedule');
+
+
+
+//Simple Logging
+var subscribers = [];
 
 xmpp.on('online', function() {
     console.log('Yes, I\'m connected!');
@@ -21,15 +27,17 @@ xmpp.on('chat', function(from, message) {
 
 		}
 
+		xmpp.send(from, i + ' Songs found!! ');
+
 			//console.log(songs);
 	 }
 
 		
 
-		if (message.indexOf('!top10') !== -1) {
+		if ((message.indexOf('gimme10') !== -1) || (message.indexOf('gimme 10') !== -1) ) {
 
-			console.log(message.substring(7));
-			xmpp.send(from, message.substring(7));
+			console.log(message.substring(9));
+			xmpp.send(from, message.substring(9));
 
 			//Make API Call
 			request('http://gplayer.herokuapp.com/api/playlist/cloudafrica', function (error, response, body) {
@@ -43,6 +51,23 @@ xmpp.on('chat', function(from, message) {
 			});
 		}
 		
+		else if ((message.indexOf('add') != -1) && (from == 'olumide.southpaw@gmail.com')) {
+
+			subscribers.push(message.substring(4));
+
+			//xmpp.subscribe(message.substring(4));
+
+			console.log(subscribers);
+
+		}
+
+		else if ((message.indexOf('show') != -1) && (from == 'olumide.southpaw@gmail.com')) {
+
+			subscribers.push(message.substring(4));
+			console.log(subscribers);
+
+		}
+
 		else {	
 			
 			var senderror = 'Sorry, I no understand wetin you mean by ' + message;
@@ -58,10 +83,19 @@ xmpp.on('error', function(err) {
     console.error(err);
 });
 
+
+
+
+
 xmpp.on('subscribe', function(from) {
 
+if (from === 'gidilounge4@gmail.com') {
     xmpp.acceptSubscription(from);
-    
+	console.log(from + ' has been added to BOT');
+
+    }
+
+
 });
 
 xmpp.on('close', function() {
@@ -77,11 +111,17 @@ xmpp.connect({
         port : 5222
 });
 
-xmpp.subscribe('olumide.southpaw@gmail.com');
+
+
+//xmpp.subscribe('olumide.southpaw@gmail.com');
+
+
+
 
 xmpp.setPresence('available', 'Gidilounge API');
 // check for incoming subscription requests
 xmpp.getRoster();
+
 
 
 
