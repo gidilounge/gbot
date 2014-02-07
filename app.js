@@ -89,9 +89,9 @@ xmpp.on('error', function(err) {
 
 xmpp.on('subscribe', function(from) {
 
-if (from === 'gidilounge4@gmail.com') {
+if (subscribers.indexOf(from) != -1) {
     xmpp.acceptSubscription(from);
-	console.log(from + ' has been added to BOT');
+	console.log(from + ' has been added to BOT'); 
 
     }
 
@@ -106,7 +106,7 @@ xmpp.on('close', function() {
 
 xmpp.connect({
         jid	: 'gidilounge5@gmail.com',
-        password : 'Fibonacci1234',
+        password : '',
         host : 'talk.google.com',
         port : 5222
 });
